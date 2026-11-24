@@ -46,7 +46,6 @@ export function MenuItemCard({ item, onSelect }) {
               alt={item.name}
               loading="lazy"
               decoding="async"
-              referrerPolicy="no-referrer"
               width="600"
               height="375"
               onError={handleImageError}

@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, Link } from "react-router-dom";
 import {
   Plus,
   Search,
@@ -76,7 +76,7 @@ export const MenuItemsPage = () => {
     setEditingItem(null);
     setFormValues({
       name: "",
-      category: categories[0]?.slug || "coffee",
+      category: categories[0]?.slug || "",
       price: "",
       description: "",
       imageUrl: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80",
@@ -511,21 +511,37 @@ export const MenuItemsPage = () => {
           />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Select
-              label="Category"
-              value={formValues.category}
-              onChange={(e) =>
-                setFormValues((prev) => ({ ...prev, category: e.target.value }))
-              }
-              error={formErrors.category}
-              required
-            >
-              {categories.map((c) => (
-                <option key={c.id} value={c.slug}>
-                  {c.name}
-                </option>
-              ))}
-            </Select>
+            {categories.length === 0 ? (
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-semibold text-espresso/70">Category *</label>
+                <div className="p-2.5 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-900 flex flex-col gap-1">
+                  <span>No categories created yet.</span>
+                  <Link
+                    to="/categories"
+                    onClick={() => setIsFormOpen(false)}
+                    className="font-bold underline text-terracotta hover:text-terracotta-dark"
+                  >
+                    Create a category first &rarr;
+                  </Link>
+                </div>
+              </div>
+            ) : (
+              <Select
+                label="Category"
+                value={formValues.category}
+                onChange={(e) =>
+                  setFormValues((prev) => ({ ...prev, category: e.target.value }))
+                }
+                error={formErrors.category}
+                required
+              >
+                {categories.map((c) => (
+                  <option key={c.id} value={c.slug}>
+                    {c.name}
+                  </option>
+                ))}
+              </Select>
+            )}
 
             <Input
               label="Price (₹ INR)"

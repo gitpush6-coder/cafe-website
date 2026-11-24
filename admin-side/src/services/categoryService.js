@@ -20,13 +20,7 @@ export const categoryService = {
    */
   async getAll() {
     try {
-      let snap;
-      try {
-        const q = query(collection(db, 'categories'), orderBy('order', 'asc'));
-        snap = await getDocs(q);
-      } catch (orderErr) {
-        snap = await getDocs(collection(db, 'categories'));
-      }
+      const snap = await getDocs(collection(db, 'categories'));
 
       const categories = snap.docs.map((d) => ({
         id: d.id,

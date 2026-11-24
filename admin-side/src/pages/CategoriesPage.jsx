@@ -18,6 +18,7 @@ import { Modal } from "../components/ui/Modal";
 import { ConfirmDialog } from "../components/ui/ConfirmDialog";
 import { Badge } from "../components/ui/Badge";
 import { TableSkeleton } from "../components/ui/SkeletonLoader";
+import { EmptyState } from "../components/ui/EmptyState";
 
 export const CategoriesPage = () => {
   const {
@@ -166,6 +167,14 @@ export const CategoriesPage = () => {
       {/* List / Table */}
       {isLoading ? (
         <TableSkeleton rows={4} />
+      ) : categories.length === 0 ? (
+        <EmptyState
+          icon={Tags}
+          title="No categories yet"
+          description="Create your first category (e.g. Coffee, Teas, Artisan Bakes, Beverages) to organize your café menu."
+          actionLabel="Add Category"
+          onAction={openAddModal}
+        />
       ) : (
         <div className="bg-white/90 rounded-2xl border border-espresso/10 shadow-warm overflow-hidden">
           <table className="w-full text-left border-collapse">
